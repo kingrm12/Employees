@@ -6,39 +6,39 @@ import jakarta.validation.ValidationException
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class HourlyEmployeeSpec extends Specification {
+class SalariedEmployeeSpec extends Specification {
 
     @Unroll('work - correctly increments #vacationDays vacation days when the employee works #daysWorked')
     def 'work - correctly increments vacation days when the employee works'() {
-        given: 'I have an hourly employee created'
-        HourlyEmployee hourlyEmployee = new HourlyEmployee()
+        given: 'I have a salaried employee created'
+        SalariedEmployee salariedEmployee = new SalariedEmployee()
 
         when: 'I work a number of days'
-        hourlyEmployee.work(daysWorked)
+        salariedEmployee.work(daysWorked)
 
         then: 'I should get the expected number of vacation days'
-        hourlyEmployee.vacationDays == vacationDays
+        salariedEmployee.vacationDays == vacationDays
 
         where:
         daysWorked | vacationDays
         0          | 0f
-        10         | 0.3846154f
-        23         | 0.88461536f
-        26         | 1f
-        52         | 2f
-        56         | 2.1538463f
-        130        | 5f
-        150        | 5.769231f
-        230        | 8.846154f
-        260        | 10f
+        10         | 0.5769231f
+        23         | 1.3269231f
+        17         | 0.9807692f
+        52         | 3f
+        85         | 4.9038463f
+        130        | 7.5f
+        150        | 8.653846f
+        230        | 13.269231f
+        260        | 15f
     }
 
     def 'work - does not allow an employee to work more than there are work days in a work year'() {
-        given: 'I have an hourly employee created'
-        HourlyEmployee hourlyEmployee = new HourlyEmployee()
+        given: 'I have a salaried employee created'
+        SalariedEmployee salariedEmployee = new SalariedEmployee()
 
         when: 'I try to work more work days than allowed in a year'
-        hourlyEmployee.work(WorkConstants.WORK_DAYS_IN_A_WORK_YEAR + 1)
+        salariedEmployee.work(WorkConstants.WORK_DAYS_IN_A_WORK_YEAR + 1)
 
         then: 'I should get an exception stating I cannot work that may days at once'
         ValidationException ve = thrown()
@@ -47,18 +47,18 @@ class HourlyEmployeeSpec extends Specification {
 
     @Unroll('takeVacation - decrements available #accruedVacationDays accrued vacation days when #vacationDays vacation days are taken')
     def 'takeVacation - decrements available accrued vacation days when vacation days are taken'() {
-        given: 'I have an hourly employee created'
-        HourlyEmployee hourlyEmployee = new HourlyEmployee()
+        given: 'I have a salaried employee created'
+        SalariedEmployee salariedEmployee = new SalariedEmployee()
 
         and: 'I have some vacation days accrued'
         // private member is directly modifiable through the magic of groovy reflection, so clean and easy!
-        hourlyEmployee.vacationDays = accruedVacationDays
+        salariedEmployee.vacationDays = accruedVacationDays
 
         when: 'I take vacation days'
-        hourlyEmployee.takeVacation(vacationDays)
+        salariedEmployee.takeVacation(vacationDays)
 
         then: 'I should have the correct number of vacation days remaining in my bank'
-        hourlyEmployee.vacationDays == (float) (accruedVacationDays - vacationDays)
+        salariedEmployee.vacationDays == (float) (accruedVacationDays - vacationDays)
 
         where:
         accruedVacationDays | vacationDays
@@ -70,14 +70,14 @@ class HourlyEmployeeSpec extends Specification {
 
     def 'takeVacation - prevents employees from taking more vacation than available'() {
         given: 'I have an hourly employee'
-        HourlyEmployee hourlyEmployee = new HourlyEmployee()
+        SalariedEmployee salariedEmployee = new SalariedEmployee()
 
         and: 'I have some vacation days accrued'
         float vacationDays = new Random().nextFloat(15, 30)
-        hourlyEmployee.vacationDays = vacationDays
+        salariedEmployee.vacationDays = vacationDays
 
         when: 'I try to take more vacation days than I have accrued'
-        hourlyEmployee.takeVacation((float) (vacationDays + 1f))
+        salariedEmployee.takeVacation((float) (vacationDays + 1f))
 
         then: 'I should be told I have insufficient vacation days'
         thrown InsufficientVacationDaysException
