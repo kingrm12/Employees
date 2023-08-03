@@ -19,6 +19,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.apache.groovy:groovy:4.0.13")
+    testImplementation("org.apache.commons:commons-lang3:3.13.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.spockframework:spock-core:2.4-M1-groovy-4.0")
     testImplementation("org.spockframework:spock-spring:2.4-M1-groovy-4.0")

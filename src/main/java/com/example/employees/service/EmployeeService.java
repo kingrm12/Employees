@@ -86,7 +86,7 @@ public class EmployeeService {
      *
      * @throws NotFoundException if the employee cannot be found
      */
-    void recordWork(TimeCard timeCard) throws NotFoundException {
+    public void recordWork(TimeCard timeCard) throws NotFoundException {
         Optional<Employee> optionalEmployee = employeeList.stream()
                 .filter(e -> e.getId().equals(timeCard.getEmployeeId()))
                 .findFirst();
@@ -106,7 +106,7 @@ public class EmployeeService {
      * @throws InsufficientVacationDaysException if the employee does not have sufficient vacation days for the request
      * @throws NotFoundException                 if the employee cannot be found
      */
-    void requestVacation(VacationRequest vacationRequest) throws InsufficientVacationDaysException, NotFoundException {
+    public void requestVacation(VacationRequest vacationRequest) throws InsufficientVacationDaysException, NotFoundException {
         Optional<Employee> optionalEmployee = employeeList.stream()
                 .filter(e -> e.getId().equals(vacationRequest.getEmployeeId()))
                 .findFirst();
