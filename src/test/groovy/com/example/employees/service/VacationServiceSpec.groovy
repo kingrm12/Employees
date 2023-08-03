@@ -52,7 +52,7 @@ class VacationServiceSpec extends Specification {
     def 'create - prevents negative days requested for vacation'() {
         given: 'a vacation request includes negative days'
         UUID employeeId = UUID.randomUUID()
-        float vacationDaysRequested = -1 * new Random().nextFloat(3, 10)
+        float vacationDaysRequested = (float) (-1 * new Random().nextFloat(3, 10))
         VacationRequest vacationRequest = new VacationRequest(employeeId: employeeId, vacationDaysRequested: vacationDaysRequested)
 
         when: 'I try to create the vacation request'
