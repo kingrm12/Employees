@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VacationController {
 
-    public static final String VACATIONS_PATH = "/vacations";
+    public static final String VACATIONS_PATH = "/vacationrequests";
 
     private final VacationService vacationService;
 
