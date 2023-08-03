@@ -2,6 +2,7 @@ package com.example.employees.service
 
 import com.example.employees.exceptions.NotFoundException
 import com.example.employees.model.VacationRequest
+import jakarta.validation.ValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,11 +41,25 @@ class VacationServiceSpec extends Specification {
         String message = RandomStringUtils.randomAlphanumeric(20)
         employeeService.requestVacation(vacationRequest) >> { throw new NotFoundException(message) }
 
-        when: 'I try to create the time card'
+        when: 'I try to create the vacation request'
         vacationService.create(vacationRequest)
 
         then: 'the employee should not be found'
         NotFoundException nfe = thrown()
         nfe.message == message
+    }
+
+    def 'create - prevents negative days requested for vacation'() {
+        given: 'a vacation request includes negative days'
+        UUID employeeId = UUID.randomUUID()
+        float vacationDaysRequested = -1 * new Random().nextFloat(3, 10)
+        VacationRequest vacationRequest = new VacationRequest(employeeId: employeeId, vacationDaysRequested: vacationDaysRequested)
+
+        when: 'I try to create the vacation request'
+        vacationService.create(vacationRequest)
+
+        then: 'the request should be recognized as invalid'
+        ValidationException ve = thrown()
+        ve.message == "create.vacationRequest.vacationDaysRequested: must be greater than 0"
     }
 }

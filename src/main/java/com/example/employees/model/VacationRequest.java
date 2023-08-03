@@ -1,5 +1,6 @@
 package com.example.employees.model;
 
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.util.UUID;
@@ -8,5 +9,6 @@ import java.util.UUID;
 public class VacationRequest {
 
     UUID employeeId;
+    @Positive
     float vacationDaysRequested;
 }
