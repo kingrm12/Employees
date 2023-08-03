@@ -51,7 +51,6 @@ class SalariedEmployeeSpec extends Specification {
         SalariedEmployee salariedEmployee = new SalariedEmployee()
 
         and: 'I have some vacation days accrued'
-        // private member is directly modifiable through the magic of groovy reflection, so clean and easy!
         salariedEmployee.vacationDays = accruedVacationDays
 
         when: 'I take vacation days'

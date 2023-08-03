@@ -27,6 +27,13 @@ public abstract class Employee {
             + " days at a time";
 
     private final UUID id = UUID.randomUUID();
+
+    // This property is "not writable externally" because it's private. There is, however, a setter generated for it.
+    // If this value is only written to through a public setter, it is only writable internally, even if the setter
+    // allows public access to indirectly modify it.
+    // If the constraint is intended to mean "we should only be able to update the value via work being done", we would
+    // need to update the tests to do so and use this to remove the setter:
+    // @Setter(AccessLevel.NONE)
     private float vacationDays;
     private int vacationDaysAccumulatedPerWorkYear;
 
