@@ -15,9 +15,6 @@ or
 depending on your platform.
 
 ## Running the Tests
-The project includes some tests, but the coverage is not exhaustive. There are tests for one of the models, 
-one of the services, and none of the controllers. If necessary, full test coverage can be illustrated.
-
 Again depending on your platform you can execute the test suite through gradle tasks. Either:
 `gradlew :test` or `./gradlew :test`
 
