@@ -2,11 +2,14 @@ package com.example.employees.service;
 
 import com.example.employees.exceptions.NotFoundException;
 import com.example.employees.model.TimeCard;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @RequiredArgsConstructor
 @Service
+@Validated
 public class TimeCardService {
 
     private final EmployeeService employeeService;
@@ -19,7 +22,7 @@ public class TimeCardService {
      *
      * @throws NotFoundException if the employee cannot be found by ID
      */
-    public void create(TimeCard timeCard) throws NotFoundException {
+    public void create(@Valid TimeCard timeCard) throws NotFoundException {
         employeeService.recordWork(timeCard);
     }
 }
