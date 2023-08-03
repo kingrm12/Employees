@@ -39,7 +39,10 @@ class EmployeeServiceSpec extends Specification {
         readEmployee == manager
 
         when: 'I delete the employee'
-        employeeService.delete(manager.id)
+        // The == operator on UUIDs checks for object equality. This makes sure our code is using .equals(). If we
+        // don't, tests where the same object is used will pass while requests to the service will otherwise fail.
+        UUID employeeId = UUID.fromString(manager.id.toString())
+        employeeService.delete(employeeId)
 
         and: 'attempt to read the employee back'
         employeeService.read(manager.id)

@@ -59,7 +59,7 @@ public class EmployeeService {
      * @param id the unique identifier of the employee
      */
     public void delete(UUID id) {
-        employeeList.removeIf(e -> e.getId() == id);
+        employeeList.removeIf(e -> e.getId().equals(id));
     }
 
     /**

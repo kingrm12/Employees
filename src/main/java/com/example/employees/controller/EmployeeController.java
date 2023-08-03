@@ -4,19 +4,19 @@ import com.example.employees.exceptions.NotFoundException;
 import com.example.employees.model.Employee;
 import com.example.employees.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.employees.exceptions.NotFoundException.EMPLOYEE_NOT_FOUND;
-
 @RequiredArgsConstructor
-@RequestMapping("employees")
+@RequestMapping(EmployeeController.EMPLOYEES_PATH)
 @RestController
 public class EmployeeController {
+
+    public static final String EMPLOYEES_PATH = "/employees";
 
     private final EmployeeService employeeService;
 
@@ -27,9 +27,10 @@ public class EmployeeController {
      *
      * @return the unique identifier of the employee created
      */
-    @PostMapping(path = "/", produces = "application/json")
-    public UUID create(@RequestBody Employee employee) {
-        return employeeService.create(employee);
+    @PostMapping(path = "/")
+    public ResponseEntity<UUID> create(@RequestBody Employee employee) {
+
+        return new ResponseEntity<>(employeeService.create(employee), HttpStatus.CREATED);
     }
 
     /**
@@ -41,9 +42,9 @@ public class EmployeeController {
      *
      * @throws NotFoundException if the employee cannot be found
      */
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public Employee read(@PathVariable UUID id) throws NotFoundException {
-        return employeeService.read(id);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Employee> read(@PathVariable UUID id) throws NotFoundException {
+        return new ResponseEntity<>( employeeService.read(id), HttpStatus.OK);
     }
 
     /**
@@ -52,8 +53,9 @@ public class EmployeeController {
      * @param id the employee's unique identifier
      */
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable UUID id) {
-
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        employeeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -63,7 +65,7 @@ public class EmployeeController {
      * @return a list of employees
      */
     @GetMapping(path = "/")
-    public List<Employee> list() {
-        return employeeService.list();
+    public ResponseEntity<List<Employee>> list() {
+        return new ResponseEntity<>(employeeService.list(), HttpStatus.OK);
     }
 }
