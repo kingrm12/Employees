@@ -63,6 +63,13 @@ public class EmployeeService {
     }
 
     /**
+     * Clear the list of employees.
+     */
+    void clear() {
+        employeeList = new ArrayList<>();
+    }
+
+    /**
      * List all current employees. This would be a great place for pagination and filtering. With large numbers of
      * employees, we'd run into memory constraints on this storage and response times would be unbounded.
      *

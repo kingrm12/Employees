@@ -9,5 +9,4 @@ public class TimeCard {
 
     UUID employeeId;
     int daysWorked;
-
 }
